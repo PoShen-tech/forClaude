@@ -1,0 +1,30 @@
+name: Daily security news
+
+on:
+  schedule:
+    - cron: '0 0 * * *'   # 00:00 UTC = 台灣時間 08:00
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: curl, json, simplexml, openssl, mbstring
+      - run: php tests/run.php
+      - name: Check & send email
+        env:
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          MAIL_FROM: ${{ secrets.MAIL_FROM }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+        run: php bin/check.php

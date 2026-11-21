@@ -1,0 +1,14 @@
+{
+  "name": "poshen/security-news-alert",
+  "description": "Daily Apache HTTP Server / PHP security news & CVE email alert (PHP 8)",
+  "type": "project",
+  "license": "MIT",
+  "require": {
+    "php": ">=8.0",
+    "ext-curl": "*",
+    "ext-json": "*",
+    "ext-simplexml": "*",
+    "ext-openssl": "*"
+  },
+  "autoload": { "psr-4": { "SecAlert\\": "src/" } }
+}
