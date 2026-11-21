@@ -60,7 +60,9 @@ if (!$to) {
     fwrite(STDERR, "MAIL_TO 未設定\n");
     exit(2);
 }
-$user = $env('SMTP_USER');
-$mailer = new SmtpMailer($env('SMTP_HOST', 'smtp.gmail.com'), (int) $env('SMTP_PORT', '587'), $user, $env('SMTP_PASS'), $env('MAIL_FROM', $user));
+$user = trim($env('SMTP_USER'));
+$pass = preg_replace('/\s+/', '', $env('SMTP_PASS')); // 應用程式密碼常帶空格/換行
+$mailer = new SmtpMailer($env('SMTP_HOST', 'smtp.gmail.com'), (int) $env('SMTP_PORT', '587'), $user, $pass, $env('MAIL_FROM', $user));
+fwrite(STDERR, sprintf("SMTP user length=%d, pass length=%d (應用程式密碼應為 16)\n", strlen($user), strlen($pass)));
 $mailer->send($to, $report->subject(), $report->html(), $report->text());
 echo "已寄出至 " . implode(', ', $to) . "\n";
