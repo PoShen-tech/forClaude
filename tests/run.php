@@ -17,3 +17,4 @@ assert(!str_contains($r->html(), '<b> &'), 'html must be escaped');
 assert(!str_contains($r->html(), 'javascript:'), 'unsafe URL must be neutralised');
 assert(strpos($r->text(), 'CVE-2099-0001') < strpos($r->text(), 'News'), 'severity sorted first');
 assert((new Report([]))->subject() !== "" && str_contains((new Report([]))->text(), "運作正常"));
+echo "OK\n";
