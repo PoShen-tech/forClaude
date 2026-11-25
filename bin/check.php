@@ -50,7 +50,7 @@ if ($dryRun) {
     echo $report->text(), "\n";
     exit(0);
 }
-if ($report->isEmpty() && $env('SEND_EMPTY', '0') !== '1') {
+if ($report->isEmpty() && $env('SEND_EMPTY', '1') !== '1') {
     echo "沒有新項目，不寄信。\n";
     exit($errors && count($errors) === count($sources) ? 1 : 0);
 }

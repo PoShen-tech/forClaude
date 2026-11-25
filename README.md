@@ -4,7 +4,7 @@
 
 - **NVD CVE API 2.0**：過去 26 小時內新公布、影響 Apache HTTP Server / PHP 的 CVE（含 CVSS 分數與嚴重度）
 - **新聞 RSS**：php.net、The Hacker News、BleepingComputer、SecurityWeek（後三者以 apache/php 等關鍵字過濾）
-- 沒有新項目就不寄信（設 `SEND_EMPTY=1` 可改為每天都寄）
+- 沒有新項目也會寄「系統運作正常」通知（設 `SEND_EMPTY=0` 可改為沒新項目就不寄）
 - 高風險（CRITICAL/HIGH）排在最前面，主旨會標示數量
 
 ## 設定（GitHub → Settings → Secrets and variables → Actions）

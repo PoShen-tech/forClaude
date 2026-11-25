@@ -17,6 +17,9 @@ final class Report
 
     public function subject(): string
     {
+        if ($this->items === []) {
+            return '[資安快報] ' . date('Y-m-d') . ' 今日無新的 Apache/PHP 漏洞（系統運作正常）';
+        }
         $crit = count(array_filter($this->items, fn(Item $i) => in_array($i->severity, ['CRITICAL', 'HIGH'], true)));
         $s = sprintf('[資安快報] Apache/PHP 新漏洞與新聞 %s：%d 則', date('Y-m-d'), count($this->items));
         return $crit > 0 ? "{$s}（高風險 {$crit}）" : $s;
@@ -25,6 +28,9 @@ final class Report
     public function text(): string
     {
         $o = "Apache / PHP 資安日報 " . date('Y-m-d') . "\n\n";
+        if ($this->items === []) {
+            $o .= "過去 24 小時沒有新的 Apache / PHP 漏洞或相關新聞。系統運作正常。\n";
+        }
         foreach ($this->sorted() as $i) {
             $sev = $i->severity ? " [{$i->severity}" . ($i->score !== null ? " {$i->score}" : '') . ']' : '';
             $o .= "- [{$i->source}]$sev {$i->title}\n  {$i->url}\n";
@@ -43,6 +49,9 @@ final class Report
         $e = static fn(string $s): string => htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
         $colors = ['CRITICAL' => '#b91c1c', 'HIGH' => '#ea580c', 'MEDIUM' => '#ca8a04', 'LOW' => '#16a34a'];
         $o = '<div style="font-family:sans-serif;max-width:720px"><h2>Apache / PHP 資安日報 ' . date('Y-m-d') . '</h2>';
+        if ($this->items === []) {
+            $o .= '<p>過去 24 小時沒有新的 Apache / PHP 漏洞或相關新聞。系統運作正常。</p>';
+        }
         foreach ($this->sorted() as $i) {
             $badge = '';
             if ($i->severity) {
